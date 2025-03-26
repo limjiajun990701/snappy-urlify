@@ -3,8 +3,17 @@ import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Card } from './ui/card';
-import { Check, ClipboardCopy, Link as LinkIcon, RefreshCw } from 'lucide-react';
+import { Check, ClipboardCopy, Link as LinkIcon, RefreshCw, QrCode } from 'lucide-react';
 import { toast } from 'sonner';
+import QRCode from 'react-qr-code';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 
 interface ShortenedUrl {
   originalUrl: string;
@@ -136,34 +145,55 @@ const UrlShortener = () => {
             {recentUrls.map((item, index) => (
               <Card key={index} className="glass-panel p-4 transition-all duration-200 animate-slide-up" style={{ animationDelay: `${index * 100}ms` }}>
                 <div className="flex flex-col sm:flex-row justify-between gap-3">
-                  <div className="overflow-hidden">
-                    <p className="text-xs text-muted-foreground mb-1">Original URL</p>
-                    <p className="text-sm truncate">{item.originalUrl}</p>
-                  </div>
-                  <div className="flex sm:flex-col items-end sm:items-start gap-2 sm:gap-1">
-                    <p className="text-xs text-muted-foreground sm:mb-1">Shortened URL</p>
-                    <div className="flex items-center gap-2">
-                      <a 
-                        href={item.shortUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-sm font-medium text-primary hover:underline"
-                      >
-                        {item.shortUrl.replace(window.location.origin, '')}
-                      </a>
-                      <Button
-                        size="icon"
-                        variant="ghost"
-                        className="h-8 w-8 rounded-full"
-                        onClick={() => copyToClipboard(item.shortUrl)}
-                      >
-                        {copied === item.shortUrl ? (
-                          <Check className="h-4 w-4 text-green-500" />
-                        ) : (
-                          <ClipboardCopy className="h-4 w-4" />
-                        )}
-                      </Button>
+                  <div className="flex items-center gap-2">
+                    <div className="flex flex-col">
+                      <p className="text-sm font-medium text-primary">{item.shortUrl}</p>
+                      <p className="text-xs text-muted-foreground mt-1 hidden">Created: {new Date(item.createdAt).toLocaleDateString()}</p>
                     </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="h-8 w-8 rounded-full"
+                      onClick={() => copyToClipboard(item.shortUrl)}
+                      title="Copy to clipboard"
+                    >
+                      {copied === item.shortUrl ? (
+                        <Check className="h-4 w-4 text-green-500" />
+                      ) : (
+                        <ClipboardCopy className="h-4 w-4" />
+                      )}
+                    </Button>
+                    
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button
+                          size="icon"
+                          variant="ghost"
+                          className="h-8 w-8 rounded-full"
+                          title="Show QR Code"
+                        >
+                          <QrCode className="h-4 w-4" />
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-md">
+                        <DialogHeader>
+                          <DialogTitle>QR Code for Shortened URL</DialogTitle>
+                          <DialogDescription>
+                            Scan this QR code to access: {item.shortUrl}
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="flex items-center justify-center p-6">
+                          <div className="p-4 bg-white rounded-lg">
+                            <QRCode 
+                              value={item.shortUrl} 
+                              size={200}
+                            />
+                          </div>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
                   </div>
                 </div>
               </Card>

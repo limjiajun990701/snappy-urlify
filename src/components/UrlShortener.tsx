@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Card } from './ui/card';
-import { Check, ClipboardCopy, Link as LinkIcon, RefreshCw, QrCode } from 'lucide-react';
+import { Check, ClipboardCopy, Link as LinkIcon, RefreshCw, QrCode, ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
 import QRCode from 'react-qr-code';
 import {
@@ -147,7 +147,15 @@ const UrlShortener = () => {
                 <div className="flex flex-col sm:flex-row justify-between gap-3">
                   <div className="flex items-center gap-2">
                     <div className="flex flex-col">
-                      <p className="text-sm font-medium text-primary">{item.shortUrl}</p>
+                      <a 
+                        href={item.shortUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-sm font-medium text-primary flex items-center hover:underline"
+                      >
+                        {item.shortUrl}
+                        <ExternalLink className="ml-1 h-3 w-3" />
+                      </a>
                       <p className="text-xs text-muted-foreground mt-1 hidden">Created: {new Date(item.createdAt).toLocaleDateString()}</p>
                     </div>
                   </div>

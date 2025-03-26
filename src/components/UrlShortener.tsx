@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Card } from './ui/card';
@@ -17,6 +17,26 @@ const UrlShortener = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [recentUrls, setRecentUrls] = useState<ShortenedUrl[]>([]);
   const [copied, setCopied] = useState<string | null>(null);
+  
+  // Load stored URLs from localStorage on component mount
+  useEffect(() => {
+    const storedUrls = localStorage.getItem('shortenedUrls');
+    if (storedUrls) {
+      try {
+        const parsedUrls = JSON.parse(storedUrls);
+        setRecentUrls(parsedUrls);
+      } catch (error) {
+        console.error('Error parsing stored URLs:', error);
+      }
+    }
+  }, []);
+
+  // Save URLs to localStorage whenever recentUrls changes
+  useEffect(() => {
+    if (recentUrls.length > 0) {
+      localStorage.setItem('shortenedUrls', JSON.stringify(recentUrls));
+    }
+  }, [recentUrls]);
   
   const generateRandomString = (length: number = 6) => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

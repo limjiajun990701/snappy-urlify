@@ -13,7 +13,7 @@ const AboutPage = () => {
         <div className="max-w-3xl mx-auto">
           <div className="mb-12 animate-slide-down">
             <h1 className="text-sm uppercase tracking-wider text-primary font-semibold mb-2">About</h1>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Simplify sharing with <span className="text-primary">snappy urlify</span></h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">Simplify sharing with <span className="text-primary">URL Shortener</span></h2>
             <p className="text-muted-foreground text-lg">
               Our mission is to make link sharing effortless. We help you transform long, complex URLs into short, 
               memorable links that are perfect for social media, messaging, and anywhere character count matters.
@@ -80,7 +80,7 @@ const AboutPage = () => {
       
       <footer className="py-6 border-t border-border/50">
         <div className="max-w-7xl mx-auto px-4 text-center text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} snappy urlify. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} URL Shortener. All rights reserved.</p>
         </div>
       </footer>
     </div>

@@ -1,69 +1,85 @@
-# Welcome to your Lovable project
+# URL Shortener
 
-## Project info
+## Project Overview
+URL Shortener is a client-side URL shortening application built with React and TypeScript. It allows users to create and manage shortened URLs using browser local storage, making link sharing simpler and more efficient.
 
-**URL**: https://lovable.dev/projects/38e85306-09d4-4815-a995-d12cfa408ec4
+## Prerequisites
+- **Node.js & npm** installed (recommended: use [nvm](https://github.com/nvm-sh/nvm) for installation)
+- Basic knowledge of React and TypeScript
+- **Git** for version control (optional but recommended)
 
-## How can I edit this code?
+## Technology Stack
+- **Frontend Framework**: React 18.3.1 with TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS
+- **Component Library**: shadcn/ui (built on Radix UI)
+- **Icons**: Lucide React
+- **Routing**: react-router-dom
+- **State Management**: React hooks + localStorage
+- **Additional Libraries**:
+  - `react-qr-code` for QR code generation
+  - `sonner` for toast notifications
+  - `@tanstack/react-query` (minimally used)
 
-There are several ways of editing your application.
+## Project Structure
+```
+📂 src
+ ├── 📂 pages           # Index, About, RedirectPage, NotFound
+ ├── 📂 components      # Header, UrlShortener, UI components
+ ├── 📂 hooks           # Custom React hooks
+ ├── 📂 utils           # Helper functions
+ ├── 📜 main.tsx        # Application entry point
+ └── 📜 App.tsx         # Main application component
+```
 
-**Use Lovable**
+## Key Features
+- **URL shortening** with client-side code generation
+- **History of recently shortened URLs** (max 5)
+- **Copy-to-clipboard functionality**
+- **QR code generation** for each shortened URL
+- **Client-side redirection system**
+- **Responsive design** for all device sizes
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/38e85306-09d4-4815-a995-d12cfa408ec4) and start prompting.
+## Deployment
+### 1. Custom Domain via Netlify
+1. Export the project from Lovable
+2. Create a [Netlify](https://www.netlify.com/) account if you don't have one
+3. Connect your repository to Netlify
+4. Configure build settings:
+   - **Build command**: `npm run build`
+   - **Publish directory**: `dist`
+5. Set up your custom domain in Netlify settings
 
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
+### 3. Local Development
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Clone the repository
+git clone <repository-url>
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Navigate to project directory
+cd url-shortener
 
-# Step 3: Install the necessary dependencies.
+# Install dependencies
 npm i
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Technical Limitations
+- **Client-side only** (uses `localStorage`)
+- **URLs only available on the device where created**
+- **No analytics or click tracking**
+- **No user accounts or authentication**
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Future Enhancement Possibilities
+- **Server-side implementation** for persistent storage
+- **User accounts & authentication**
+- **Analytics dashboard** for tracking link usage
+- **Custom short codes** instead of random generation
+- **Link expiration options**
 
-**Use GitHub Codespaces**
+## Browser Compatibility
+- Works on all **modern browsers** (Chrome, Firefox, Safari, Edge)
+- Requires **localStorage** support
+- **Responsive design** for mobile and desktop
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with .
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/38e85306-09d4-4815-a995-d12cfa408ec4) and click on Share -> Publish.
-
-## I want to use a custom domain - is that possible?
-
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)

@@ -10,10 +10,10 @@ const Header = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
           <span className="text-primary font-bold text-xl tracking-tight">
-            snappy
+            Url
           </span>
           <span className="text-foreground font-light text-xl tracking-tight">
-            urlify
+          shorter 
           </span>
         </Link>
         

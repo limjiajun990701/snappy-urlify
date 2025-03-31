@@ -36,7 +36,7 @@ const NotFound = () => {
       
       <footer className="py-6 border-t border-border/50">
         <div className="max-w-7xl mx-auto px-4 text-center text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} snappy urlify. All rights reserved.</p>
+          <p>© {new Date().getFullYear()}URL Shortener. All rights reserved.</p>
         </div>
       </footer>
     </div>

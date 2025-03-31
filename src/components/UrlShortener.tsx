@@ -18,7 +18,7 @@ import {
 interface ShortenedUrl {
   originalUrl: string;
   shortUrl: string;
-  shortCode: string; // Add shortCode field to make lookup easier
+  shortCode: string; // Explicit shortCode field
   createdAt: Date;
 }
 
@@ -28,7 +28,7 @@ const UrlShortener = () => {
   const [recentUrls, setRecentUrls] = useState<ShortenedUrl[]>([]);
   const [copied, setCopied] = useState<string | null>(null);
   
-  // The domain for generating short URLs
+  // The domain for generating short URLs - ensure this matches the deployed URL
   const shortUrlDomain = 'https://url-shortener-phi-sepia.vercel.app';
   
   // Load stored URLs from localStorage on component mount
@@ -53,6 +53,9 @@ const UrlShortener = () => {
         if (JSON.stringify(updatedUrls) !== storedUrls) {
           localStorage.setItem('shortenedUrls', JSON.stringify(updatedUrls));
         }
+        
+        // Debug log to verify what we loaded from storage
+        console.log('Loaded URLs from storage:', updatedUrls);
       } catch (error) {
         console.error('Error parsing stored URLs:', error);
       }
@@ -63,6 +66,8 @@ const UrlShortener = () => {
   useEffect(() => {
     if (recentUrls.length > 0) {
       localStorage.setItem('shortenedUrls', JSON.stringify(recentUrls));
+      // Debug log to verify what we're saving
+      console.log('Saved URLs to storage:', recentUrls);
     }
   }, [recentUrls]);
   
@@ -101,9 +106,12 @@ const UrlShortener = () => {
       const newShortenedUrl = {
         originalUrl: url,
         shortUrl,
-        shortCode,
+        shortCode, // Store the shortCode explicitly
         createdAt: new Date(),
       };
+      
+      // Debug log
+      console.log('Created new shortened URL:', newShortenedUrl);
       
       setRecentUrls(prev => [newShortenedUrl, ...prev.slice(0, 4)]);
       setUrl('');

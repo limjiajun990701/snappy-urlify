@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Loader2, AlertCircle } from 'lucide-react';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
+import { toast } from 'sonner';
 
 const RedirectPage = () => {
   const { shortCode } = useParams();
@@ -10,10 +11,11 @@ const RedirectPage = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // In a real application, this would make an API call to fetch the original URL
-    // For now, we'll check the localStorage to find matching URLs
     const loadAndRedirect = async () => {
       try {
+        // Log the shortcode we're looking for
+        console.log('Attempting to redirect with shortCode:', shortCode);
+        
         // Simulate API call with a small delay
         await new Promise(resolve => setTimeout(resolve, 500));
         
@@ -21,25 +23,39 @@ const RedirectPage = () => {
         const storedUrlsString = localStorage.getItem('shortenedUrls');
         const storedUrls = storedUrlsString ? JSON.parse(storedUrlsString) : [];
         
-        // For testing purposes, log what we found
-        console.log('Searching for shortCode:', shortCode);
-        console.log('Available URLs:', storedUrls);
+        // Debug logs
+        console.log('Available URLs in storage:', storedUrls);
         
         // Find the URL with matching shortCode
-        // We need to extract just the shortCode part from the full URL
-        const urlData = storedUrls.find((item: any) => {
-          const itemShortCode = item.shortUrl.split('/').pop();
-          return itemShortCode === shortCode;
-        });
+        // First try using the shortCode field directly
+        let urlData = storedUrls.find((item: any) => item.shortCode === shortCode);
+        
+        // If not found, try extracting from the URL as fallback
+        if (!urlData) {
+          console.log('No direct match found, trying URL extraction method');
+          urlData = storedUrls.find((item: any) => {
+            // Extract the short code from the URL
+            const itemShortCode = item.shortUrl.split('/').pop();
+            console.log(`Comparing: "${itemShortCode}" with "${shortCode}"`);
+            return itemShortCode === shortCode;
+          });
+        }
         
         if (urlData) {
+          // Success! We found a matching URL
           console.log('Found matching URL:', urlData);
-          // Redirect to the original URL
-          window.location.href = urlData.originalUrl;
+          toast.success('Redirecting to original URL...');
+          
+          // Redirect to the original URL after a brief delay
+          setTimeout(() => {
+            window.location.href = urlData.originalUrl;
+          }, 500);
         } else {
+          // No matching URL found
           console.error('No matching URL found for shortCode:', shortCode);
-          setError('The requested short link was not found.');
-          // Don't navigate away immediately, show the error first
+          setError('The requested short link was not found or has expired.');
+          
+          // Navigate to home page after showing the error
           setTimeout(() => {
             navigate('/', { replace: true });
           }, 3000);
@@ -66,7 +82,7 @@ const RedirectPage = () => {
           <AlertTitle>Error</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
         </Alert>
-        <p className="text-muted-foreground">Redirecting to home page...</p>
+        <p className="text-muted-foreground">Redirecting to home page in a moment...</p>
       </div>
     );
   }
